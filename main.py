@@ -1,5 +1,15 @@
+import sys
+import os
+
 def main():
-  with open("books/frankenstein.txt") as f:
+  if len(sys.argv) < 2:
+    raise Exception("Please pass in a relative path to the book you want to analyze") 
+
+  book_path = sys.argv[1]
+  if not os.path.isfile(book_path):
+    raise Exception(f"'{book_path}' does not exist in your filesystem")
+
+  with open(book_path) as f:
     file_contents = f.read()
 
     words_in_file = count_words(file_contents)
@@ -37,4 +47,7 @@ def create_book_report(num_words, letters_dict):
 
   print("--- End report ---")
 
-main()
+try:
+  main()
+except Exception as e:
+  print(e)
